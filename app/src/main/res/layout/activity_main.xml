@@ -14,21 +14,21 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.411"
+        app:layout_constraintHorizontal_bias="0.688"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.323" />
+        app:layout_constraintVertical_bias="0.048" />
 
     <ImageView
         android:id="@+id/profile"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:src="@drawable/default_profile"
         app:layout_constraintDimensionRatio="1:1"
-        tools:srcCompat="@tools:sample/avatars"
-        app:layout_constraintTop_toBottomOf="@+id/hGuideline1"
-        app:layout_constraintStart_toStartOf="@+id/vGuideline1"
         app:layout_constraintBottom_toTopOf="@id/hGuideline2"
-        app:layout_constraintEnd_toStartOf="@id/vGuideline2"/>
+        app:layout_constraintEnd_toStartOf="@id/vGuideline2"
+        app:layout_constraintStart_toStartOf="@+id/vGuideline1"
+        app:layout_constraintTop_toBottomOf="@+id/hGuideline1" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/hGuideline1"
