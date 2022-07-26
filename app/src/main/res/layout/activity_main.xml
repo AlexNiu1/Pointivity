@@ -30,6 +30,19 @@
         app:layout_constraintStart_toStartOf="@+id/vGuideline1"
         app:layout_constraintTop_toBottomOf="@+id/hGuideline1" />
 
+    <ImageView
+        android:id="@+id/shop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/shopping_bag"
+        app:layout_constraintDimensionRatio="1:1"
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="569dp"
+        app:layout_constraintBottom_toTopOf="@id/hGuideline4"
+        app:layout_constraintEnd_toStartOf="@id/vGuideline4"
+        app:layout_constraintStart_toStartOf="@+id/vGuideline3"
+        app:layout_constraintTop_toBottomOf="@+id/hGuideline3"/>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/hGuideline1"
         android:layout_width="wrap_content"
@@ -45,6 +58,20 @@
         app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hGuideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hGuideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/vGuideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,5 +84,19 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.30"  />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vGuideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.40"  />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vGuideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.60"  />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

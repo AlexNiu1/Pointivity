@@ -24,5 +24,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             }
         });
+
+        // listen for shop button
+        findViewById(R.id.shop).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                // start the game
+                startActivity(new Intent(MainActivity.this, ShopActivity.class));
+            }
+        });
     }
 }
