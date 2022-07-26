@@ -26,6 +26,9 @@
         <activity
             android:name=".ProfileActivity"
             android:theme="@style/Theme.Pointivity.noApplicationBar" />
+        <activity
+            android:name=".ShopActivity"
+            android:theme="@style/Theme.Pointivity.noApplicationBar" />
 
     </application>
 
