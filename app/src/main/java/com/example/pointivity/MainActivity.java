@@ -12,11 +12,18 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     protected static int points;
+    CountDownTimer timer;
+    TextView mTextField;
+    EditText mMinutes;
+    Button mButton;
+    ImageView profilebutton;
+    ImageView shopbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // listen for profile button
-        findViewById(R.id.profile).setOnClickListener(new View.OnClickListener(){
+        profilebutton = findViewById(R.id.profile);
+        shopbutton = findViewById(R.id.shop);
+        profilebutton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
                 // start the game
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));
@@ -44,17 +53,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // listen for shop button
-        findViewById(R.id.shop).setOnClickListener(new View.OnClickListener(){
+        shopbutton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
                 // start the game
                 startActivity(new Intent(MainActivity.this, ShopActivity.class));
             }
         });
-
-        TextView mTextField = (TextView) findViewById(R.id.infotext);
-        EditText mMinutes = (EditText) findViewById(R.id.minutes);
-        Button mButton = (Button) findViewById(R.id.button);
-
+        mTextField = (TextView) findViewById(R.id.infotext);
+        mMinutes = (EditText) findViewById(R.id.minutes);
+        mButton = (Button) findViewById(R.id.button);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
                 mButton.setEnabled(false);
                 mButton.setClickable(false);
                 mMinutes.setEnabled(false);
+                mMinutes.setClickable(false);
+                profilebutton.setClickable(false);
+                profilebutton.setEnabled(false);
+                shopbutton.setClickable(false);
+                shopbutton.setEnabled(false);
                 int start;
                 if (mMinutes.getText().toString().isEmpty()){
                     start = 5;
@@ -73,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
                     start = 5;
                 }
 
-                CountDownTimer timer = new CountDownTimer(start * 60000, 1000) {
+                timer = new CountDownTimer(start * 60000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
-                        mTextField.setText("Time remaining:" + millisUntilFinished / 60000 + " minutes, " + (millisUntilFinished % 60000)/1000 + "seconds");
+                        mTextField.setText("Time remaining: " + millisUntilFinished / 60000 + " minutes, " + (millisUntilFinished % 60000)/1000 + "seconds");
                     }
 
                     public void onFinish() {
@@ -85,6 +97,11 @@ public class MainActivity extends AppCompatActivity {
                         mButton.setEnabled(true);
                         mButton.setClickable(true);
                         mMinutes.setEnabled(true);
+                        mMinutes.setClickable(true);
+                        profilebutton.setClickable(true);
+                        profilebutton.setEnabled(true);
+                        shopbutton.setClickable(true);
+                        shopbutton.setEnabled(true);
                     }
                 };
                 timer.start();
@@ -92,5 +109,21 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+    @Override
+    public void onUserLeaveHint() {
+        if (timer != null){
+            timer.cancel();
+            mTextField.setText("Focus mode failed as you left the app, no points earned");
+            mMinutes.setText("");
+            mButton.setEnabled(true);
+            mButton.setClickable(true);
+            mMinutes.setEnabled(true);
+            mMinutes.setClickable(true);
+            profilebutton.setClickable(true);
+            profilebutton.setEnabled(true);
+            shopbutton.setClickable(true);
+            shopbutton.setEnabled(true);
+        }
     }
 }
