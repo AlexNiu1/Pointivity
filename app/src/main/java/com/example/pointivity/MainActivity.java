@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 timer = new CountDownTimer(start * 60000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
-                        mTextField.setText("Time remaining: " + millisUntilFinished / 60000 + " minutes, " + (millisUntilFinished % 60000)/1000 + "seconds");
+                        mTextField.setText("Time remaining: " + millisUntilFinished / 60000 + " minutes, " + (millisUntilFinished % 60000)/1000 + " seconds");
                     }
 
                     public void onFinish() {
