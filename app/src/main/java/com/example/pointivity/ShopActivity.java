@@ -20,12 +20,8 @@ public class ShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shop);
         SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE);
         int points = prefs.getInt("points", 0);
-        // To edit the number of points, use this code:
-        /*
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("points", (int) points - itemCost);
-        editor.apply();
-         */
+        TextView point = (TextView) findViewById(R.id.points3);
+        point.setText("Points: " + points);
         TextView homebutton = findViewById(R.id.homebutton);
         homebutton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {

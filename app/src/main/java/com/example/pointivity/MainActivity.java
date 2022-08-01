@@ -18,6 +18,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     protected static int points;
+    protected static int totaltime;
+    protected static int besttime;
     CountDownTimer timer;
     TextView mTextField;
     EditText mMinutes;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE);
         points = prefs.getInt("points", 0);
+        totaltime = prefs.getInt("totaltime", 0);
+        besttime = prefs.getInt("besttime", 0);
         // Not 100% sure but try this when u want to edit points:
         /*
         SharedPreferences.Editor editor = prefs.edit();
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // listen for profile button
         profilebutton = findViewById(R.id.profile);
+        TextView point = (TextView) findViewById(R.id.points);
+        point.setText("Points: " + this.points);
         shopbutton = findViewById(R.id.shop);
         profilebutton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
@@ -76,23 +82,38 @@ public class MainActivity extends AppCompatActivity {
                 shopbutton.setEnabled(false);
                 int start;
                 if (mMinutes.getText().toString().isEmpty()){
-                    start = 5;
+                    start = 1;
                 }
                 else {
                     start = Integer.parseInt(mMinutes.getText().toString());
                 }
-                if (start < 5){
-                    start = 5;
+                if (start < 1){
+                    start = 1;
                 }
+                final int pointsearned = start*60;
 
                 timer = new CountDownTimer(start * 60000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
-                        mTextField.setText("Time remaining: " + millisUntilFinished / 60000 + " minutes, " + (millisUntilFinished % 60000)/1000 + " seconds");
+                        String countdown = "Time remaining: " + millisUntilFinished / 60000;
+                        if (millisUntilFinished >= 60000 && millisUntilFinished < 120000) {
+                            countdown = countdown + " minute, ";
+                        }
+                        else{
+                            countdown = countdown + " minutes, ";
+                        }
+                        countdown = countdown + (millisUntilFinished % 60000)/1000;
+                        if ((millisUntilFinished % 60000)/1000 == 1){
+                            countdown = countdown + " second";
+                        }
+                        else{
+                            countdown = countdown + " seconds";
+                        }
+                        mTextField.setText(countdown);
                     }
 
                     public void onFinish() {
-                        mTextField.setText("Focus Mode Complete, congratulations");
+                        mTextField.setText("Focus Mode Complete, congratulations. Points earned: " + pointsearned);
                         mMinutes.setText("");
                         mButton.setEnabled(true);
                         mButton.setClickable(true);
@@ -102,11 +123,19 @@ public class MainActivity extends AppCompatActivity {
                         profilebutton.setEnabled(true);
                         shopbutton.setClickable(true);
                         shopbutton.setEnabled(true);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putInt("points", (int) points + pointsearned);
+                        editor.putInt("besttime", Math.max(besttime, pointsearned));
+                        editor.putInt("totaltime", totaltime + pointsearned);
+                        editor.apply();
+                        points = prefs.getInt("points", 0);
+                        totaltime = prefs.getInt("totaltime", 0);
+                        besttime = prefs.getInt("besttime", 0);
+                        point.setText("Points: " + points);
+                        timer = null;
                     }
                 };
                 timer.start();
-
-
             }
         });
     }
