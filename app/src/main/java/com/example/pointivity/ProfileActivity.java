@@ -1,6 +1,7 @@
 package com.example.pointivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -19,6 +21,24 @@ public class ProfileActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_profile);
         SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE);
+        ConstraintLayout layout = findViewById(R.id.layout2);
+        int backgroundcolor = prefs.getInt("background", 0);
+        int rand = backgroundcolor;
+        if (rand == 4){
+            rand = (int) Math.floor(Math.random()*4);
+        }
+        if (rand == 0){
+            layout.setBackgroundColor(Color.WHITE);
+        }
+        if (rand == 1){
+            layout.setBackgroundColor(Color.RED);
+        }
+        if (rand == 2){
+            layout.setBackgroundColor(Color.BLUE);
+        }
+        if (rand == 3) {
+            layout.setBackgroundColor(Color.GREEN);
+        }
         int points = prefs.getInt("points", 0);
         TextView point = (TextView) findViewById(R.id.points2);
         point.setText("Points: " + points);

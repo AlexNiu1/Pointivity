@@ -22,13 +22,13 @@ public class MainActivity extends AppCompatActivity {
     protected static int points;
     protected static int totaltime;
     protected static int besttime;
+    protected static int backgroundcolor;
     CountDownTimer timer;
     TextView mTextField;
     EditText mMinutes;
     Button mButton;
     ImageView profilebutton;
     ImageView shopbutton;
-    ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +37,30 @@ public class MainActivity extends AppCompatActivity {
         points = prefs.getInt("points", 0);
         totaltime = prefs.getInt("totaltime", 0);
         besttime = prefs.getInt("besttime", 0);
-        // Not 100% sure but try this when u want to edit points:
-        /*
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("points", (int) points + earnedPoints);
-        editor.apply();
-         */
+        //0 is white 1 is red 2 is blue 3 is green 4 is random
+        backgroundcolor = prefs.getInt("background", 0);
         setContentView(R.layout.activity_main);
         //test
         // making the MainActivity full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        ConstraintLayout layout = findViewById(R.id.layout);
+        int rand = backgroundcolor;
+        if (rand == 4){
+            rand = (int) Math.floor(Math.random()*4);
+        }
+        if (rand == 0){
+            layout.setBackgroundColor(Color.WHITE);
+        }
+        if (rand == 1){
+            layout.setBackgroundColor(Color.RED);
+        }
+        if (rand == 2){
+            layout.setBackgroundColor(Color.BLUE);
+        }
+        if (rand == 3) {
+            layout.setBackgroundColor(Color.GREEN);
+        }
         // listen for profile button
         profilebutton = findViewById(R.id.profile);
         TextView point = (TextView) findViewById(R.id.points);
