@@ -47,6 +47,35 @@ public class ShopActivity extends AppCompatActivity {
         Button green = findViewById(R.id.green);
         Button white = findViewById(R.id.white);
         Button random = findViewById(R.id.random);
+        int redpoints = 60;
+        int bluepoints = 120;
+        int greenpoints = 180;
+        int randompoints = 240;
+        TextView red2 = findViewById(R.id.red2);
+        TextView blue2 = findViewById(R.id.blue2);
+        TextView green2 = findViewById(R.id.green2);
+        TextView random2 = findViewById(R.id.random2);
+        if (points < redpoints){
+            red.setEnabled(false);
+            red.setClickable(false);
+            red2.setText("60 points to unlock");
+        }
+        if (points < bluepoints){
+            blue.setEnabled(false);
+            blue.setClickable(false);
+            blue2.setText("120 points to unlock");
+        }
+        if (points < greenpoints){
+            green.setEnabled(false);
+            green.setClickable(false);
+            green2.setText("180 points to unlock");
+        }
+        if (points < randompoints){
+            random.setEnabled(false);
+            random.setClickable(false);
+            random2.setText("240 points to unlock");
+        }
+        Button resetpoints = findViewById(R.id.resetpoints);
         red.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = prefs.edit();
@@ -103,6 +132,15 @@ public class ShopActivity extends AppCompatActivity {
         homebutton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
                 // start the game
+                startActivity(new Intent(ShopActivity.this, MainActivity.class));
+            }
+        });
+        resetpoints.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("points", 0);
+                editor.putInt("background", 0);
+                editor.apply();
                 startActivity(new Intent(ShopActivity.this, MainActivity.class));
             }
         });
