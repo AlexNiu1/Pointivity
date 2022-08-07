@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected static int totaltime;
     protected static int besttime;
     protected static int backgroundcolor;
+    protected static int[] colors;
     CountDownTimer timer;
     TextView mTextField;
     EditText mMinutes;
@@ -38,28 +39,21 @@ public class MainActivity extends AppCompatActivity {
         totaltime = prefs.getInt("totaltime", 0);
         besttime = prefs.getInt("besttime", 0);
         //0 is white 1 is red 2 is blue 3 is green 4 is random
-        backgroundcolor = prefs.getInt("background", 0);
+        backgroundcolor = prefs.getInt("background", Color.WHITE);
+        colors = new int[]{0, Color.WHITE, Color.RED, Color.GREEN, Color.BLUE};
         setContentView(R.layout.activity_main);
         //test
         // making the MainActivity full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ConstraintLayout layout = findViewById(R.id.layout);
+        layout.setBackgroundColor(backgroundcolor);
         int rand = backgroundcolor;
-        if (rand == 4){
-            rand = (int) Math.floor(Math.random()*4);
-        }
-        if (rand == 0){
-            layout.setBackgroundColor(Color.WHITE);
-        }
-        if (rand == 1){
-            layout.setBackgroundColor(Color.RED);
-        }
-        if (rand == 2){
-            layout.setBackgroundColor(Color.BLUE);
-        }
-        if (rand == 3) {
-            layout.setBackgroundColor(Color.GREEN);
+        if (rand == 0) {
+            rand = (int) Math.floor(Math.random() * 4);
+            layout.setBackgroundColor(MainActivity.colors[rand + 1]);
+        } else {
+            layout.setBackgroundColor(backgroundcolor);
         }
         // listen for profile button
         profilebutton = findViewById(R.id.profile);
