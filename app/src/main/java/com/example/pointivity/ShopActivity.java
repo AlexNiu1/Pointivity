@@ -11,32 +11,32 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class ShopActivity extends AppCompatActivity {
+
+    private int defaultColor;
+    private ConstraintLayout layout;
+    private SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_shop);
-        SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE);
-        ConstraintLayout layout = findViewById(R.id.layout);
-        int backgroundcolor = prefs.getInt("background", 0);
+        prefs = getSharedPreferences("app", MODE_PRIVATE);
+        layout = findViewById(R.id.layout);
+        int backgroundcolor = prefs.getInt("background", Color.WHITE);
+        defaultColor = ContextCompat.getColor(ShopActivity.this, com.google.android.material.R.color.design_default_color_primary);
         int rand = backgroundcolor;
-        if (rand == 4){
-            rand = (int) Math.floor(Math.random()*4);
-        }
-        if (rand == 0){
-            layout.setBackgroundColor(Color.WHITE);
-        }
-        if (rand == 1){
-            layout.setBackgroundColor(Color.RED);
-        }
-        if (rand == 2){
-            layout.setBackgroundColor(Color.BLUE);
-        }
-        if (rand == 3) {
-            layout.setBackgroundColor(Color.GREEN);
+        if (rand == 0) {
+            rand = (int) Math.floor(Math.random() * 4);
+            layout.setBackgroundColor(MainActivity.colors[rand + 1]);
+        } else {
+            layout.setBackgroundColor(backgroundcolor);
         }
         int points = prefs.getInt("points", 0);
         TextView point = (TextView) findViewById(R.id.points3);
@@ -47,14 +47,17 @@ public class ShopActivity extends AppCompatActivity {
         Button green = findViewById(R.id.green);
         Button white = findViewById(R.id.white);
         Button random = findViewById(R.id.random);
+        Button pick = findViewById(R.id.pick);
         int redpoints = 60;
         int bluepoints = 120;
         int greenpoints = 180;
         int randompoints = 240;
+        int pickPoints = 360;
         TextView red2 = findViewById(R.id.red2);
         TextView blue2 = findViewById(R.id.blue2);
         TextView green2 = findViewById(R.id.green2);
         TextView random2 = findViewById(R.id.random2);
+        TextView pick2 = findViewById(R.id.pick2);
         if (points < redpoints){
             red.setEnabled(false);
             red.setClickable(false);
@@ -75,11 +78,16 @@ public class ShopActivity extends AppCompatActivity {
             random.setClickable(false);
             random2.setText("240 points to unlock");
         }
+        if (points < pickPoints){
+            pick.setEnabled(false);
+            pick.setClickable(false);
+            pick2.setText("360 points to unlock");
+        }
         Button resetpoints = findViewById(R.id.resetpoints);
         red.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("background", 1);
+                editor.putInt("background", Color.RED);
                 editor.apply();
                 layout.setBackgroundColor(Color.RED);
             }
@@ -87,7 +95,7 @@ public class ShopActivity extends AppCompatActivity {
         blue.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("background", 2);
+                editor.putInt("background", Color.BLUE);
                 editor.apply();
                 layout.setBackgroundColor(Color.BLUE);
             }
@@ -95,7 +103,7 @@ public class ShopActivity extends AppCompatActivity {
         green.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("background", 3);
+                editor.putInt("background", Color.GREEN);
                 editor.apply();
                 layout.setBackgroundColor(Color.GREEN);
             }
@@ -103,7 +111,7 @@ public class ShopActivity extends AppCompatActivity {
         white.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("background", 0);
+                editor.putInt("background", Color.WHITE);
                 editor.apply();
                 layout.setBackgroundColor(Color.WHITE);
             }
@@ -111,21 +119,15 @@ public class ShopActivity extends AppCompatActivity {
         random.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("background", 4);
+                int rand = (int) Math.floor(Math.random() * 4);
+                layout.setBackgroundColor(MainActivity.colors[rand + 1]);
+                editor.putInt("background", 0);
                 editor.apply();
-                int rand = (int) Math.floor(Math.random()*4);
-                if (rand == 0){
-                    layout.setBackgroundColor(Color.WHITE);
-                }
-                if (rand == 1){
-                    layout.setBackgroundColor(Color.RED);
-                }
-                if (rand == 2){
-                    layout.setBackgroundColor(Color.BLUE);
-                }
-                if (rand == 3) {
-                    layout.setBackgroundColor(Color.GREEN);
-                }
+            }
+        });
+        pick.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openColorPicker();
             }
         });
         TextView homebutton = findViewById(R.id.homebutton);
@@ -146,4 +148,22 @@ public class ShopActivity extends AppCompatActivity {
         });
     }
 
+    public void openColorPicker() {
+        AmbilWarnaDialog ambilWarnaDialog = new AmbilWarnaDialog(this, defaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+
+            }
+
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                defaultColor = color;
+                layout.setBackgroundColor(defaultColor);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("background", defaultColor);
+                editor.apply();
+            }
+        });
+        ambilWarnaDialog.show();
+    }
 }

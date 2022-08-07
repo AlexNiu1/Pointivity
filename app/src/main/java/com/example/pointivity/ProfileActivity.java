@@ -22,22 +22,13 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE);
         ConstraintLayout layout = findViewById(R.id.layout2);
-        int backgroundcolor = prefs.getInt("background", 0);
+        int backgroundcolor = prefs.getInt("background", Color.WHITE);
         int rand = backgroundcolor;
-        if (rand == 4){
-            rand = (int) Math.floor(Math.random()*4);
-        }
-        if (rand == 0){
-            layout.setBackgroundColor(Color.WHITE);
-        }
-        if (rand == 1){
-            layout.setBackgroundColor(Color.RED);
-        }
-        if (rand == 2){
-            layout.setBackgroundColor(Color.BLUE);
-        }
-        if (rand == 3) {
-            layout.setBackgroundColor(Color.GREEN);
+        if (rand == 0) {
+            rand = (int) Math.floor(Math.random() * 4);
+            layout.setBackgroundColor(MainActivity.colors[rand + 1]);
+        } else {
+            layout.setBackgroundColor(backgroundcolor);
         }
         int points = prefs.getInt("points", 0);
         TextView point = (TextView) findViewById(R.id.points2);
