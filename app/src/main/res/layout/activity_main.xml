@@ -11,7 +11,8 @@
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:foreground="@drawable/points2"
         android:text="Pointivity"
         android:textSize="50dp"
         android:textStyle="bold"
